@@ -1,14 +1,13 @@
-package com.springsecurity.form;
+package com.springsecurity.demo;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @SpringBootApplication
-public class FormApplication {
+public class DemoApplication {
 
 	@Bean
 	public PasswordEncoder passwordEncoder() {
@@ -16,7 +15,7 @@ public class FormApplication {
 	}
 
 	public static void main(String[] args) {
-		SpringApplication.run(FormApplication.class, args);
+		SpringApplication.run(DemoApplication.class, args);
 	}
 
 }

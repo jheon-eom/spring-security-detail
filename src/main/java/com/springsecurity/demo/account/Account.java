@@ -1,4 +1,4 @@
-package com.springsecurity.form.account;
+package com.springsecurity.demo.account;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 

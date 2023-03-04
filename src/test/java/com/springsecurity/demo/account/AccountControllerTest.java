@@ -1,4 +1,4 @@
-package com.springsecurity.form.account;
+package com.springsecurity.demo.account;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -10,9 +10,12 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.transaction.annotation.Transactional;
 
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestBuilders.formLogin;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.anonymous;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
+import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.authenticated;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -22,6 +25,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class AccountControllerTest {
     @Autowired
     MockMvc mockMvc;
+    @Autowired
+    AccountService accountService;
 
     @Test
     void index_anonymous() throws Exception {
@@ -89,6 +94,30 @@ class AccountControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.get("/"))
                 .andDo(print())
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    @Transactional
+    void login() throws Exception {
+        Account user = createUser();
+        mockMvc.perform(formLogin().user("ejh").password("123"))
+                .andExpect(authenticated());
+    }
+
+    @Test
+    @Transactional
+    void login2() throws Exception {
+        Account user = createUser();
+        mockMvc.perform(formLogin().user("ejh").password("123"))
+                .andExpect(authenticated());
+    }
+
+    private Account createUser() {
+        Account account = new Account();
+        account.setUsername("ejh");
+        account.setPassword("123");
+        account.setRole("USER");
+        return accountService.createNew(account);
     }
 
 }
